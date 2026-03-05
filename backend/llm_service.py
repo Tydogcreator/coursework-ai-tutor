@@ -1,8 +1,14 @@
 import os
 import json
-import litellm
+from openai import OpenAI
 
-# Use a default model, e.g. gpt-4o, 'ollama/llama3', 'claude-3-5-sonnet-20240620', 'gemini/gemini-pro'
+# Initialize OpenAI client. Defaults to OpenAI but can point to Ollama, Groq, or Gemini if base_url is set.
+client = OpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY", "dummy-key-for-local"),
+    base_url=os.environ.get("OPENAI_BASE_URL")
+)
+
+# Use a default model, e.g. gpt-4o, 'llama3', 'llama-3.1-70b-versatile'
 MODEL_NAME = os.environ.get("MODEL_NAME", "gpt-4o")
 
 
@@ -35,11 +41,10 @@ def generate_chat_response(messages: list, learner_profile: dict = None) -> str:
     formatted_messages.extend(messages)
     
     try:
-        response = litellm.completion(
+        response = client.chat.completions.create(
             model=MODEL_NAME,
             messages=formatted_messages,
             temperature=0.7,
-            api_base=os.environ.get("OPENAI_BASE_URL") if os.environ.get("OPENAI_BASE_URL") else None
         )
         return response.choices[0].message.content
     except Exception as e:
