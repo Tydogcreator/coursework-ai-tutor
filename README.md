@@ -10,7 +10,7 @@ A full-stack, AI-powered tutoring platform designed to ingest multimodal course 
 - **Multimodal Ingestion**: Upload lecture slides (PDFs), handwritten notes (Images/OCR), and recorded lectures (Audio/Video).
 - **Stateful Learner Profiles**: The system remembers your education level, learning style, and study preferences across sessions.
 - **Strict Guardrails**: Designed to prevent cheating. It acts as a true tutor by utilizing the Socratic method to guide students to answers.
-- **Local/Cloud LLM Support**: Works seamlessly with OpenAI API, or completely locally and privately using **Ollama**.
+- **Universal LLM Support**: Works seamlessly out-of-the-box with OpenAI, Anthropic (Claude), Google (Gemini), or completely locally and privately using **Ollama** (Llama 3, Qwen, etc.), powered by LiteLLM.
 
 ---
 
@@ -61,8 +61,13 @@ The backend is built with Python and FastAPI. It uses SQLite for lightweight, ze
    Create a new file named `.env` inside the `backend` folder and add your API credentials:
    ```env
    # Ensure you put in a valid OpenAI API key or use a local one (see Local Models section below)
-   OPENAI_API_KEY=your_dummy_or_real_key
+   # For OpenAI:
+   OPENAI_API_KEY=your_openai_key
    MODEL_NAME=gpt-4o
+   
+   # For Anthropic (Claude):
+   # ANTHROPIC_API_KEY=your_anthropic_key
+   # MODEL_NAME=claude-3-5-sonnet-20240620
    ```
 
 ### Step 3: Set Up the Frontend
@@ -102,22 +107,38 @@ npm run dev
 
 ---
 
-## 🧠 Using Local AI Models (100% Free & Private)
+## 🧠 Universal Model Support (Claude, local Qwen, Llama, etc.)
 
-If you do not want to use OpenAI and prefer to run models locally on your computer, this project natively supports **Ollama**.
+This project uses **LiteLLM** under the hood, meaning you can swap the AI model you use by simply changing two environment variables in your `backend/.env` file. No code changes required!
+
+### 1. Using Anthropic (Claude)
+```env
+ANTHROPIC_API_KEY=your_anthropic_key
+MODEL_NAME=claude-3-5-sonnet-20240620
+```
+
+### 2. Using Local Models via Ollama (100% Free & Private)
+If you prefer to run models locally on your computer offline (like Qwen, Llama 3, or Phi):
 
 1. Download and install [Ollama](https://ollama.com/).
-2. Open your terminal and pull a model (e.g., Llama 3):
+2. Pull your model of choice (e.g., Qwen 2.5):
    ```bash
-   ollama run llama3
+   ollama run qwen2.5
    ```
-3. Update your `backend/.env` file to point to the local Ollama server:
+3. Update your `backend/.env`:
    ```env
-   OPENAI_API_KEY=ollama
-   MODEL_NAME=llama3
-   OPENAI_BASE_URL=http://localhost:11434/v1
+   # No API key needed for local!
+   MODEL_NAME=ollama/qwen2.5
+   # or MODEL_NAME=ollama/llama3
    ```
-Restart your backend server, and the tutor will now run fully offline!
+
+### 3. Using Generic OpenAI-Compatible Endpoints (Groq, LM Studio, etc.)
+If you use LM Studio or Groq for ultra-fast generation:
+```env
+OPENAI_API_KEY=your_key_here
+MODEL_NAME=openai/custom_model_id
+OPENAI_BASE_URL=http://localhost:1234/v1 # e.g. LM Studio url
+```
 
 ---
 
