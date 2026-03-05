@@ -1,139 +1,172 @@
-# Coursework AI Tutor
+# 📚 Coursework AI Tutor
 
-A full-stack, AI-powered tutoring platform designed to ingest multimodal course materials (PDFs, Images, Audio) and generate highly personalized, state-aware study guides. Built with cognitive science principles in mind, the tutor uses strict Socratic-method prompting to ensure **academic integrity** is maintained—it teaches the material instead of just giving away the answers.
+**Your free, private AI study buddy.** Upload your lecture slides, notes, or recordings and get personalized study guides, practice quizzes, and Socratic tutoring — all running on your own computer. No accounts, no subscriptions, no data leaving your machine.
 
-![Coursework Analyzer](https://img.shields.io/badge/Status-Active-success) ![License](https://img.shields.io/badge/License-MIT-blue)
-
----
-
-## ✨ Key Features
-- **Multimodal Ingestion**: Upload lecture slides (PDFs), handwritten notes (Images/OCR), and recorded lectures (Audio/Video).
-- **Stateful Learner Profiles**: The system remembers your education level, learning style, and study preferences across sessions.
-- **Strict Guardrails**: Designed to prevent cheating. It acts as a true tutor by utilizing the Socratic method to guide students to answers.
-- **Local/Cloud LLM Support**: Works seamlessly with OpenAI API, generic OpenAI-compatible endpoints (like Groq), or completely locally and privately using **Ollama**.
+![Status](https://img.shields.io/badge/Status-Active-success) ![License](https://img.shields.io/badge/License-MIT-blue) ![Cost](https://img.shields.io/badge/Cost-100%25%20Free-brightgreen)
 
 ---
 
-## 🛠️ Prerequisites
+## ⚡ 60-Second Setup (Free, No API Key Needed)
 
-Before you begin, ensure you have the following installed on your machine:
+You only need to install **3 things** and then copy-paste a few commands. That's it.
 
-1. **Node.js** (v18 or higher) - For the React frontend.
-2. **Python** (v3.9 or higher) - For the FastAPI backend.
-3. **Tesseract OCR** (Optional but highly recommended) - Required for reading text from images/handwritten notes. [Download here](https://github.com/UB-Mannheim/tesseract/wiki).
-4. **ffmpeg** (Optional but highly recommended) - Required for OpenAI Whisper to process audio/video files. [Download here](https://ffmpeg.org/download.html).
+### What You Need to Install First
+
+| # | What | Why | Download Link |
+|---|------|-----|---------------|
+| 1 | **Ollama** | This is the free AI brain that runs on your computer | [ollama.com](https://ollama.com/) |
+| 2 | **Python** (3.10+) | Runs the backend server | [python.org](https://www.python.org/downloads/) |
+| 3 | **Node.js** (18+) | Runs the web interface | [nodejs.org](https://nodejs.org/) |
+
+> **💡 Tip:** When installing Python, make sure to check the box that says **"Add Python to PATH"**. This is important!
 
 ---
 
-## 🚀 Quick Start & Installation
+### Step 1: Download an AI Model (One Time Only)
 
-Follow these steps to get the application running locally on your machine.
+After installing Ollama, open your terminal (Command Prompt, PowerShell, or Terminal) and run:
 
-### Step 1: Clone the Repository
+```bash
+ollama run llama3
+```
+
+This downloads a free AI model to your computer (~4GB). It only needs to happen once. When you see it respond to you, you're good — type `/bye` to exit.
+
+### Step 2: Download This Project
+
 ```bash
 git clone https://github.com/Tydogcreator/coursework-ai-tutor.git
 cd coursework-ai-tutor
 ```
 
-### Step 2: Set Up the Backend
-The backend is built with Python and FastAPI. It uses SQLite for lightweight, zero-configuration local storage.
+> **Don't have git?** You can also click the green **"Code"** button on GitHub and select **"Download ZIP"**, then unzip the folder.
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Create and activate a virtual environment:
-   - **Windows:**
-     ```bash
-     python -m venv venv
-     .\venv\Scripts\activate
-     ```
-   - **Mac/Linux:**
-     ```bash
-     python3 -m venv venv
-     source venv/bin/activate
-     ```
-3. Install the dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Configure your Environment Variables:
-   Create a new file named `.env` inside the `backend` folder and add your API credentials:
-   ```env
-   # Ensure you put in a valid OpenAI API key or use a local one (see Local Models section below)
-   OPENAI_API_KEY=your_openai_key
-   MODEL_NAME=gpt-4o
-   ```
+### Step 3: Set Up the Backend (One Time Only)
 
-### Step 3: Set Up the Frontend
-The frontend is built with React, Vite, and Tailwind CSS.
+Open a terminal inside the project folder and run:
 
-1. Open a **new terminal tab/window** and navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install the Node modules:
-   ```bash
-   npm install
-   ```
+**Windows:**
+```bash
+cd backend
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+**Mac/Linux:**
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Step 4: Create Your Settings File (One Time Only)
+
+Create a new file called `.env` inside the `backend` folder and paste this in:
+
+```env
+OPENAI_API_KEY=ollama
+MODEL_NAME=llama3
+OPENAI_BASE_URL=http://localhost:11434/v1
+```
+
+That's it. No API keys, no sign-ups, no credit cards.
+
+### Step 5: Set Up the Frontend (One Time Only)
+
+Open a **second** terminal window and run:
+
+```bash
+cd frontend
+npm install
+```
 
 ---
 
-## 🏃‍♂️ Running the Application
+## 🟢 How to Start Studying (Every Time You Want to Use It)
 
-To use the Coursework AI Tutor, you need to run both the backend and frontend servers simultaneously. 
+You need to have **two terminal windows** open. Think of it like starting two apps.
 
-**Terminal 1 (Backend):**
+**Terminal 1 — Start the AI Engine:**
 ```bash
 cd backend
-# Make sure your virtual environment is activated!
+.\venv\Scripts\activate   # Windows
+# source venv/bin/activate  # Mac/Linux
 uvicorn main:app --reload
 ```
-*The API will start running at: `http://localhost:8000`*
 
-**Terminal 2 (Frontend):**
+**Terminal 2 — Start the Web Interface:**
 ```bash
 cd frontend
 npm run dev
 ```
-*The web interface will start running at: `http://localhost:5173`*
 
-**Open your browser and navigate to `http://localhost:5173` to start studying!**
+**Now open your browser and go to: [http://localhost:5173](http://localhost:5173)**
+
+🎉 **You're in!** Create your learner profile, upload your study materials, and start asking questions.
 
 ---
 
-## 🧠 Universal Model Support (Local Models, Groq, etc.)
+## 📖 How to Use the Tutor
 
-This project uses the official **OpenAI SDK** under the hood. Because almost all modern AI providers use the OpenAI standard format, you can swap the AI model you use by simply changing two environment variables in your `backend/.env` file. No code changes required!
+1. **Create Your Profile** — Enter your name, education level, and school. This helps the tutor personalize explanations to your level.
+2. **Upload Your Materials** — Click the upload button (📎) to upload lecture slides (PDF), photos of handwritten notes, or audio recordings of lectures.
+3. **Ask Questions** — Type anything in the chat box:
+   - *"Explain Chapter 3 like I'm 5"*
+   - *"Create a practice quiz on this material"*
+   - *"What are the key concepts I should know for the exam?"*
+   - *"Make me a study guide"*
+4. **The tutor will NOT give you direct answers to homework.** It's designed to teach you by asking guiding questions (the Socratic method), so you actually learn the material.
 
-### 1. Using Local Models via Ollama (100% Free & Private)
-If you prefer to run models locally on your computer offline (like Qwen, Llama 3, or Phi):
+---
 
-1. Download and install [Ollama](https://ollama.com/).
-2. Pull your model of choice (e.g., Llama 3):
-   ```bash
-   ollama run llama3
-   ```
-3. Update your `backend/.env`:
-   ```env
-   OPENAI_API_KEY=ollama
-   MODEL_NAME=llama3
-   OPENAI_BASE_URL=http://localhost:11434/v1
-   ```
+## 💰 Want to Use a Different AI Model?
 
-### 2. Using Generic OpenAI-Compatible Endpoints (Groq, LM Studio, etc.)
-If you use LM Studio or Groq for ultra-fast generation:
+The default setup uses **Ollama** (completely free, runs on your computer). But if you want to use a cloud-based model instead, just change the 3 lines in your `backend/.env` file:
+
+### Option A: Use OpenAI (GPT-4o) — Paid
 ```env
-OPENAI_API_KEY=your_groq_or_custom_key
+OPENAI_API_KEY=sk-your-key-here
+MODEL_NAME=gpt-4o
+# Delete or comment out the OPENAI_BASE_URL line
+```
+Get your API key at [platform.openai.com](https://platform.openai.com/api-keys).
+
+### Option B: Use Groq (Llama 3.1 70B) — Free Tier Available
+```env
+OPENAI_API_KEY=gsk_your-groq-key
 MODEL_NAME=llama-3.1-70b-versatile
-OPENAI_BASE_URL=https://api.groq.com/openai/v1 # Or your custom endpoint url
+OPENAI_BASE_URL=https://api.groq.com/openai/v1
+```
+Get a free API key at [console.groq.com](https://console.groq.com).
+
+### Option C: Use a Different Ollama Model
+```bash
+ollama run qwen2.5    # or mistral, phi3, gemma2, etc.
+```
+Then update your `.env`:
+```env
+OPENAI_API_KEY=ollama
+MODEL_NAME=qwen2.5
+OPENAI_BASE_URL=http://localhost:11434/v1
 ```
 
 ---
 
-## 🏗️ Architecture Stack
-- **Frontend Core:** React, Vite, Tailwind CSS v4
-- **Markdown Rendering:** `react-markdown`
-- **Backend Core:** Python, FastAPI, SQLAlchemy (SQLite)
-- **Data Ingestion:** `pdfplumber` (PDF), `pytesseract` (Images), `openai-whisper` (Audio)
-- **LLM Context Injection:** Custom Pydantic models for tracking session history and dynamic learner profiles.
+## 🛠️ Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| **"Cannot connect to server"** | Make sure both terminals are running (backend AND frontend) |
+| **"Error connecting to LLM"** | Make sure Ollama is running. Open a terminal and type `ollama serve` |
+| **Page is blank** | Hard refresh your browser (Ctrl+Shift+R) |
+| **Pip install fails** | Make sure Python is at version 3.10 or higher: `python --version` |
+
+---
+
+## 🏗️ Tech Stack (For Developers)
+- **Frontend:** React, Vite, Tailwind CSS v4, react-markdown, Lucide icons
+- **Backend:** Python, FastAPI, SQLAlchemy, SQLite
+- **AI Integration:** OpenAI SDK (compatible with Ollama, Groq, and any OpenAI-format endpoint)
+- **Data Ingestion:** pdfplumber (PDFs), pytesseract (Image OCR), openai-whisper (Audio transcription)
