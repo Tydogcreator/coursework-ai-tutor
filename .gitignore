@@ -34,3 +34,6 @@ env/
 
 # Database
 coursework.db
+
+# Private Docs
+docs/system_prompt.md
