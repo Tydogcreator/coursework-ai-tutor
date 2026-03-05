@@ -10,7 +10,7 @@ A full-stack, AI-powered tutoring platform designed to ingest multimodal course 
 - **Multimodal Ingestion**: Upload lecture slides (PDFs), handwritten notes (Images/OCR), and recorded lectures (Audio/Video).
 - **Stateful Learner Profiles**: The system remembers your education level, learning style, and study preferences across sessions.
 - **Strict Guardrails**: Designed to prevent cheating. It acts as a true tutor by utilizing the Socratic method to guide students to answers.
-- **Universal LLM Support**: Works seamlessly out-of-the-box with OpenAI, Anthropic (Claude), Google (Gemini), or completely locally and privately using **Ollama** (Llama 3, Qwen, etc.), powered by LiteLLM.
+- **Local/Cloud LLM Support**: Works seamlessly with OpenAI API, generic OpenAI-compatible endpoints (like Groq), or completely locally and privately using **Ollama**.
 
 ---
 
@@ -61,13 +61,8 @@ The backend is built with Python and FastAPI. It uses SQLite for lightweight, ze
    Create a new file named `.env` inside the `backend` folder and add your API credentials:
    ```env
    # Ensure you put in a valid OpenAI API key or use a local one (see Local Models section below)
-   # For OpenAI:
    OPENAI_API_KEY=your_openai_key
    MODEL_NAME=gpt-4o
-   
-   # For Anthropic (Claude):
-   # ANTHROPIC_API_KEY=your_anthropic_key
-   # MODEL_NAME=claude-3-5-sonnet-20240620
    ```
 
 ### Step 3: Set Up the Frontend
@@ -107,60 +102,31 @@ npm run dev
 
 ---
 
-## 🧠 Universal Model Support (Claude, GPT-4o, Local Models)
+## 🧠 Universal Model Support (Local Models, Groq, etc.)
 
-This project uses **LiteLLM** under the hood, meaning you can swap the AI model you use by simply changing two environment variables in your `backend/.env` file. No code changes required!
+This project uses the official **OpenAI SDK** under the hood. Because almost all modern AI providers use the OpenAI standard format, you can swap the AI model you use by simply changing two environment variables in your `backend/.env` file. No code changes required!
 
-### 🤑 How to use State-of-the-Art Models for FREE
-Don't want to pay for OpenAI or Anthropic API keys? You can use the latest models entirely for free using these two providers:
-
-#### Option A: Use Groq (Lightning Fast Open-Source)
-Groq provides a generous free tier for the latest Llama 3.1, Mixtral, and Gemma models.
-1. Get a free API key at [console.groq.com](https://console.groq.com).
-2. Update your `backend/.env`:
-```env
-GROQ_API_KEY=your_groq_key_here
-MODEL_NAME=groq/llama-3.1-70b-versatile
-```
-
-#### Option B: Use Google Gemini (Top-Tier Reasoning)
-Google provides a free tier for their Gemini 1.5 Pro and Flash models.
-1. Get a free API key at [Google AI Studio](https://aistudio.google.com/).
-2. Update your `backend/.env`:
-```env
-GEMINI_API_KEY=your_gemini_key_here
-MODEL_NAME=gemini/gemini-1.5-pro
-```
-
----
-
-### 1. Using Anthropic (Claude)
-```env
-ANTHROPIC_API_KEY=your_anthropic_key
-MODEL_NAME=claude-3-5-sonnet-20240620
-```
-
-### 2. Using Local Models via Ollama (100% Free & Private)
+### 1. Using Local Models via Ollama (100% Free & Private)
 If you prefer to run models locally on your computer offline (like Qwen, Llama 3, or Phi):
 
 1. Download and install [Ollama](https://ollama.com/).
-2. Pull your model of choice (e.g., Qwen 2.5):
+2. Pull your model of choice (e.g., Llama 3):
    ```bash
-   ollama run qwen2.5
+   ollama run llama3
    ```
 3. Update your `backend/.env`:
    ```env
-   # No API key needed for local!
-   MODEL_NAME=ollama/qwen2.5
-   # or MODEL_NAME=ollama/llama3
+   OPENAI_API_KEY=ollama
+   MODEL_NAME=llama3
+   OPENAI_BASE_URL=http://localhost:11434/v1
    ```
 
-### 3. Using Generic OpenAI-Compatible Endpoints (Groq, LM Studio, etc.)
+### 2. Using Generic OpenAI-Compatible Endpoints (Groq, LM Studio, etc.)
 If you use LM Studio or Groq for ultra-fast generation:
 ```env
-OPENAI_API_KEY=your_key_here
-MODEL_NAME=openai/custom_model_id
-OPENAI_BASE_URL=http://localhost:1234/v1 # e.g. LM Studio url
+OPENAI_API_KEY=your_groq_or_custom_key
+MODEL_NAME=llama-3.1-70b-versatile
+OPENAI_BASE_URL=https://api.groq.com/openai/v1 # Or your custom endpoint url
 ```
 
 ---
