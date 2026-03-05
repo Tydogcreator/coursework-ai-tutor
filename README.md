@@ -107,9 +107,32 @@ npm run dev
 
 ---
 
-## 🧠 Universal Model Support (Claude, local Qwen, Llama, etc.)
+## 🧠 Universal Model Support (Claude, GPT-4o, Local Models)
 
 This project uses **LiteLLM** under the hood, meaning you can swap the AI model you use by simply changing two environment variables in your `backend/.env` file. No code changes required!
+
+### 🤑 How to use State-of-the-Art Models for FREE
+Don't want to pay for OpenAI or Anthropic API keys? You can use the latest models entirely for free using these two providers:
+
+#### Option A: Use Groq (Lightning Fast Open-Source)
+Groq provides a generous free tier for the latest Llama 3.1, Mixtral, and Gemma models.
+1. Get a free API key at [console.groq.com](https://console.groq.com).
+2. Update your `backend/.env`:
+```env
+GROQ_API_KEY=your_groq_key_here
+MODEL_NAME=groq/llama-3.1-70b-versatile
+```
+
+#### Option B: Use Google Gemini (Top-Tier Reasoning)
+Google provides a free tier for their Gemini 1.5 Pro and Flash models.
+1. Get a free API key at [Google AI Studio](https://aistudio.google.com/).
+2. Update your `backend/.env`:
+```env
+GEMINI_API_KEY=your_gemini_key_here
+MODEL_NAME=gemini/gemini-1.5-pro
+```
+
+---
 
 ### 1. Using Anthropic (Claude)
 ```env
